@@ -13,11 +13,11 @@ namespace Lab10_WebApi.Controllers
     [ApiController]
     public class MeasurementController : ControllerBase
     {
-        private List<Measurement> _measurements = new()
-        {
-            new Measurement(1, "09-11-2021","12.12", 123, 234, 345),
-            new Measurement(2, "10-11-2021", "12.23", 323, 434, 545)
-        };
+        //private List<Measurement> _measurements = new()
+        //{
+        //    new Measurement(1, "09-11-2021","12.12", 123, 234, 345),
+        //    new Measurement(2, "10-11-2021", "12.23", 323, 434, 545)
+        //};
 
         // GET: api/<MeasurementController>
         [HttpGet]
@@ -60,7 +60,10 @@ namespace Lab10_WebApi.Controllers
             {
                 return NotFound();
             }
-
+            //List<Measurement> latestMeasurements = new();
+            //latestMeasurements.Add(_measurements.Last());
+            //int count = _measurements.Count() - 1;
+            //latestMeasurements.Add(_measurements)
             return _measurements.Last();
         }
 
