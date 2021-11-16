@@ -17,8 +17,9 @@ namespace Lab10_WebApi.Models
             AirMoisture = airMoisture;
             AirPressure = airPressure;
         }
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int MeasurementId { get; set; }
         [Required]
         public string Date { get; set; }
         [Required]
