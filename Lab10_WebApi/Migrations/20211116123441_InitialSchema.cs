@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Lab10_WebApi.Migrations
+namespace WebApi.Migrations
 {
     public partial class InitialSchema : Migration
     {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Lab10_WebApi
+namespace WebApi
 {
     public class Program
     {
