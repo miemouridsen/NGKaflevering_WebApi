@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace WebApi.Models
 {
     public class Measurement
     {
-        public Measurement(string date, string time, double temperature, double airMoisture, double airPressure)
+        public Measurement(string date, string time, Single temperature, int airMoisture, Single airPressure)
         {
             Date = date;
             Time = time;
@@ -14,17 +15,22 @@ namespace WebApi.Models
             AirPressure = airPressure;
         }
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [JsonIgnore]
         public int MeasurementId { get; set; }
         [Required]
         public string Date { get; set; }
         [Required]
         public string Time { get; set; }
         [Required]
-        public double Temperature { get; set; }
+        public Single Temperature { get; set; }
         [Required]
-        public double AirMoisture { get; set; }
+        [Range(0,100)]
+        public int AirMoisture { get; set; }
         [Required]
-        public double AirPressure { get; set; }
+        public Single AirPressure { get; set; }
+
+        [JsonIgnore]
+        public int LocationId { get; set; }
+        public Location Location { get; set; }
     }
 }

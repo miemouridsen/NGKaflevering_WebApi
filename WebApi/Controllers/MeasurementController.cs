@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebApi.Models;
 
@@ -14,12 +16,6 @@ namespace WebApi.Controllers
     {
         private readonly MeasurementDbContext _context;
 
-        //private List<Measurement> _measurements = new()
-        //{
-        //    new Measurement(1, "09-11-2021","12.12", 123, 234, 345),
-        //    new Measurement(2, "10-11-2021", "12.23", 323, 434, 545)
-        //};
-
         public MeasurementController(MeasurementDbContext context)
         {
             _context = context;
@@ -27,63 +23,89 @@ namespace WebApi.Controllers
 
         // GET: api/<MeasurementController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Measurement>>> GetMeasurements()
+        public async Task<ActionResult<List<Measurement>>> GetMeasurements()
         {
-            return await _context.Measurements.ToListAsync();
+            return await _context.Measurements.Include(m => m.Location).ToListAsync();
         }
 
-        //// GET api/<MeasurementController>/
-        //[HttpGet("{id}", Name = "Get")]
-        //public ActionResult<Measurement> Get(int id)
-        //{
-        //    var item = _measurements.Find(measurement => id == measurement.Id);
-        //    if (item == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return item;
-        //}
+        //// GET with id api/<MeasurementController>/
+        [HttpGet("{id}", Name = "Get")]
+        public async Task<ActionResult<List<Measurement>>> Get(int id)
+        {
+            var measurement = await _context.Measurements.Where(m => m.MeasurementId == id)
+                .Include(m => m.Location).ToListAsync();
+            if (measurement == null)
+            {
+                return NotFound();
+            }
+            return measurement;
+        }
 
         //// POST api/<MeasurementController>
-        //[HttpPost]
-        //public ActionResult<Measurement> Post(Measurement input)
-        //{
-        //    if (input == null)
-        //    {
-        //        return BadRequest();
-        //    }
-        //     _measurements.Add(input);
-        //    return CreatedAtAction("Get", new { id = input.Id }, input);
-        //}
+        [HttpPost]
+        public async Task<ActionResult<Measurement>> Post(Measurement input)
+        {
+            if (input == null)
+            {
+                return BadRequest();
+            }
+            await _context.Measurements.AddAsync(input);
+            await _context.SaveChangesAsync();
+
+            return Created("get", input);
+            //return CreatedAtAction("Get", new { MeasurementId = input.MeasurementId }, input);
+        }
 
 
-        //// GET latest measrurement api/<MeasurementController>/
-        //[HttpGet]
-        //[Route("/Latest")]
-        //public ActionResult<Measurement> GetLatest()
-        //{
-        //    if (_measurements.Count == 0)
-        //    {
-        //        return NotFound();
-        //    }
-        //    //List<Measurement> latestMeasurements = new();
-        //    //latestMeasurements.Add(_measurements.Last());
-        //    //int count = _measurements.Count() - 1;
-        //    //latestMeasurements.Add(_measurements)
-        //    return _measurements.Last();
-        //}
+        //// GET latest 3 measurements api/<MeasurementController>/
+        [HttpGet]
+        [Route("/api/Measurements/Latest")]
+        public async Task<ActionResult<List<Measurement>>> GetLatest()
+        {
+            var NoEntities = await _context.Measurements.CountAsync();
+            if (NoEntities == 0)
+            {
+                return NotFound();
+            }
 
-        //// GET measrurement at date api/<MeasurementController>/
-        //[HttpGet("GetSpecificDate/{date}")]
-        //public ActionResult<Measurement> GetDate(string date)
-        //{
-        //    var item = _measurements.Find(measurement => date == measurement.Date);
-        //    if (item == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return item;
-        //}
+            List<Measurement> latestMeasurements = await _context.Measurements.OrderByDescending(m => m.MeasurementId)
+                                        .Take(3)
+                                        .Include(m => m.Location)
+                                        .ToListAsync();
+            return latestMeasurements;
+        }
+
+        //// GET measurements at date api/<MeasurementController>/
+        [HttpGet]
+        [Route("/api/Measurements/Date/{date}")]
+        public async Task<ActionResult<List<Measurement>>> GetAtDate(string date)
+        {
+            var measurement = await _context.Measurements.Where(m => m.Date == date)
+                .Include(m => m.Location).ToListAsync();
+            if (measurement == null)
+            {
+                return NotFound();
+            }
+            return measurement;
+        }
+
+        //// GET measurements between dates api/<MeasurementController>/
+        [HttpGet]
+        [Route("/api/Measurements/Date/{date}")]
+        public async Task<ActionResult<List<Measurement>>> GetBetweenDates(string startDate, string endDate)
+        {
+            DateTime start = DateTime.Parse(startDate);
+            DateTime end = DateTime.Parse(endDate);
+
+            var measurement = await _context.Measurements.Where(m => m.Date > startDate && m.Date < endDate)
+                .Include(m => m.Location).ToListAsync();
+            if (measurement == null)
+            {
+                return NotFound();
+            }
+            return measurement;
+        }
+
 
         //// PUT api/<MeasurementController>/5
         //[HttpPut("{id}")]
