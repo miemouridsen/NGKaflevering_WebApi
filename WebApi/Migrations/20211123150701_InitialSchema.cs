@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApi.Migrations
 {
@@ -27,8 +28,7 @@ namespace WebApi.Migrations
                 {
                     MeasurementId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Time = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateNTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Temperature = table.Column<double>(type: "float(1)", precision: 1, nullable: false),
                     AirMoisture = table.Column<int>(type: "int", nullable: false),
                     AirPressure = table.Column<double>(type: "float(1)", precision: 1, nullable: false),

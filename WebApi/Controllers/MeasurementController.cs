@@ -75,12 +75,12 @@ namespace WebApi.Controllers
             return latestMeasurements;
         }
 
-        //// GET measurements at date api/<MeasurementController>/
+        // GET measurements at date api/<MeasurementController>/
         [HttpGet]
         [Route("/api/Measurements/Date/{date}")]
-        public async Task<ActionResult<List<Measurement>>> GetAtDate(string date)
+        public async Task<ActionResult<List<Measurement>>> GetAtDate(DateTime date)
         {
-            var measurement = await _context.Measurements.Where(m => m.Date == date)
+            var measurement = await _context.Measurements.Where(m => m.DateNTime.Date == date.Date)
                 .Include(m => m.Location).ToListAsync();
             if (measurement == null)
             {
@@ -89,15 +89,12 @@ namespace WebApi.Controllers
             return measurement;
         }
 
-        //// GET measurements between dates api/<MeasurementController>/
+        // GET measurements between dates api/<MeasurementController>/
         [HttpGet]
-        [Route("/api/Measurements/Date/{date}")]
-        public async Task<ActionResult<List<Measurement>>> GetBetweenDates(string startDate, string endDate)
+        [Route("/api/Measurements/Date/{startDate}/{endDate}")]
+        public async Task<ActionResult<List<Measurement>>> GetBetweenDates(DateTime startDate, DateTime endDate)
         {
-            DateTime start = DateTime.Parse(startDate);
-            DateTime end = DateTime.Parse(endDate);
-
-            var measurement = await _context.Measurements.Where(m => m.Date > startDate && m.Date < endDate)
+            var measurement = await _context.Measurements.Where(m => (m.DateNTime.Date >= startDate.Date) && (m.DateNTime.Date <= endDate.Date))
                 .Include(m => m.Location).ToListAsync();
             if (measurement == null)
             {
