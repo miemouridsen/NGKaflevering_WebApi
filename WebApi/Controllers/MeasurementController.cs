@@ -30,7 +30,7 @@ namespace WebApi.Controllers
 
         // GET with id
         [HttpGet("{id}", Name = "Get")]
-        public async Task<ActionResult<List<Measurement>>> Get(int id)
+        public async Task<ActionResult<List<Measurement>>> Get(long id)
         {
             var measurement = await _context.Measurements.Where(m => m.MeasurementId == id)
                 .Include(m => m.Location).ToListAsync();

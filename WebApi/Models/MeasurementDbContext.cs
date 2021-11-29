@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebApi.Models;
 
 namespace WebApi.Models
 {
@@ -18,5 +19,6 @@ namespace WebApi.Models
             //    .Property(m => m.AirPressure)
             //    .HasPrecision(1);
         }
+        public DbSet<WebApi.Models.User> User { get; set; }
     }
 }
