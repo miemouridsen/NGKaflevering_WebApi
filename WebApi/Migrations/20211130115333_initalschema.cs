@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApi.Migrations
 {
-    public partial class InitialSchema : Migration
+    public partial class initalschema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,9 +29,9 @@ namespace WebApi.Migrations
                     MeasurementId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateNTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Temperature = table.Column<double>(type: "float(1)", precision: 1, nullable: false),
+                    Temperature = table.Column<double>(type: "float", nullable: false),
                     AirMoisture = table.Column<int>(type: "int", nullable: false),
-                    AirPressure = table.Column<double>(type: "float(1)", precision: 1, nullable: false),
+                    AirPressure = table.Column<double>(type: "float", nullable: false),
                     LocationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

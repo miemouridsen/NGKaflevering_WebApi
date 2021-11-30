@@ -52,8 +52,7 @@ namespace WebApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<double>("AirPressure")
-                        .HasPrecision(1)
-                        .HasColumnType("float(1)");
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("DateNTime")
                         .HasColumnType("datetime2");
@@ -62,8 +61,7 @@ namespace WebApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<double>("Temperature")
-                        .HasPrecision(1)
-                        .HasColumnType("float(1)");
+                        .HasColumnType("float");
 
                     b.HasKey("MeasurementId");
 

@@ -10,13 +10,13 @@ namespace WebApi.Models
         public DbSet<Measurement> Measurements { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Measurement>()
-                .Property(m => m.Temperature)
-                .HasPrecision(1);
+            //modelBuilder.Entity<Measurement>()
+            //    .Property(m => m.Temperature)
+            //    .HasPrecision(1);
 
-            modelBuilder.Entity<Measurement>()
-                .Property(m => m.AirPressure)
-                .HasPrecision(1);
+            //modelBuilder.Entity<Measurement>()
+            //    .Property(m => m.AirPressure)
+            //    .HasPrecision(1);
         }
     }
 }

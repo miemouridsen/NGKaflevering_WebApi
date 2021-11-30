@@ -6,7 +6,7 @@ namespace WebApi.Models
 {
     public class Measurement
     {
-        public Measurement(DateTime dateNTime, Single temperature, int airMoisture, Single airPressure)
+        public Measurement(DateTime dateNTime, double temperature, int airMoisture, double airPressure)
         {
             DateNTime = dateNTime;
             Temperature = temperature;
@@ -19,12 +19,12 @@ namespace WebApi.Models
         [Required]
         public DateTime DateNTime { get; set; }
         [Required]
-        public Single Temperature { get; set; }
+        public double Temperature { get; set; }
         [Required]
         [Range(0,100)]
         public int AirMoisture { get; set; }
         [Required]
-        public Single AirPressure { get; set; }
+        public double AirPressure { get; set; }
 
         [JsonIgnore]
         public int LocationId { get; set; }
