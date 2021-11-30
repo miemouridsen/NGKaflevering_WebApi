@@ -21,14 +21,14 @@ namespace WebApi.Controllers
             _context = context;
         }
 
-        // GET: api/<MeasurementController>
+        // GET 
         [HttpGet]
         public async Task<ActionResult<List<Measurement>>> GetMeasurements()
         {
             return await _context.Measurements.Include(m => m.Location).ToListAsync();
         }
 
-        //// GET with id api/<MeasurementController>/
+        // GET with id
         [HttpGet("{id}", Name = "Get")]
         public async Task<ActionResult<List<Measurement>>> Get(int id)
         {
@@ -41,7 +41,7 @@ namespace WebApi.Controllers
             return measurement;
         }
 
-        //// POST api/<MeasurementController>
+        // POST
         [HttpPost]
         public async Task<ActionResult<Measurement>> Post(Measurement input)
         {
@@ -49,6 +49,8 @@ namespace WebApi.Controllers
             {
                 return BadRequest();
             }
+            input.Temperature = Math.Round(input.Temperature, 1);
+            input.AirPressure = Math.Round(input.AirPressure, 1);
             await _context.Measurements.AddAsync(input);
             await _context.SaveChangesAsync();
 
@@ -57,7 +59,7 @@ namespace WebApi.Controllers
         }
 
 
-        //// GET latest 3 measurements api/<MeasurementController>/
+        // GET latest 3 measurements
         [HttpGet]
         [Route("/api/Measurements/Latest")]
         public async Task<ActionResult<List<Measurement>>> GetLatest()
@@ -75,7 +77,7 @@ namespace WebApi.Controllers
             return latestMeasurements;
         }
 
-        // GET measurements at date api/<MeasurementController>/
+        // GET measurements at date
         [HttpGet]
         [Route("/api/Measurements/Date/{date}")]
         public async Task<ActionResult<List<Measurement>>> GetAtDate(DateTime date)
@@ -89,7 +91,7 @@ namespace WebApi.Controllers
             return measurement;
         }
 
-        // GET measurements between dates api/<MeasurementController>/
+        // GET measurements between dates 
         [HttpGet]
         [Route("/api/Measurements/Date/{startDate}/{endDate}")]
         public async Task<ActionResult<List<Measurement>>> GetBetweenDates(DateTime startDate, DateTime endDate)
