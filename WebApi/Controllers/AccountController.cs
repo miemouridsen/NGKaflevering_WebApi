@@ -8,6 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using static BCrypt.Net.BCrypt;
 using WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using WebApi.Utilities;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using Microsoft.Extensions.Options;
 
 namespace WebApi.Controllers
 {
@@ -18,10 +24,13 @@ namespace WebApi.Controllers
 
         const int BcryptWorkfactor = 10;
         private readonly MeasurementDbContext _context;
+        private readonly AppSettings _appSettings;
 
-        public AccountController(MeasurementDbContext context)
+
+        public AccountController(MeasurementDbContext context, IOptions<AppSettings> appSettings)
         {
             _context = context;
+            _appSettings = appSettings.Value;
         }
 
         [HttpPost("register"), AllowAnonymous]
@@ -61,7 +70,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("login"), AllowAnonymous]
-        public async Task<ActionResult<UserDto>> Login(UserDto login)
+        public async Task<ActionResult<TokenDto>> Login(UserDto login)
         {
             login.Email = login.Email.ToLower();
             var user = await _context.User.Where(u =>
@@ -71,11 +80,33 @@ namespace WebApi.Controllers
                 var validPwd = Verify(login.Password, user.PwHash);
                 if (validPwd)
                 {
-                    return login;
+                    var token = new TokenDto();
+                    token.JWT = GenerateToken(user);
+                    return token;
+
                 }
             }
             ModelState.AddModelError(string.Empty, "Forkert brugernavn eller password");
             return BadRequest(ModelState);
         }
-    }
+        private string GenerateToken(User user)
+        {
+            var claims = new Claim[]
+            {
+             new Claim("Email", user.Email),
+             new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
+             new Claim("UserId", user.UserId.ToString()),
+             new Claim(JwtRegisteredClaimNames.Exp,
+             new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString()),
+            };
+            var key = Encoding.ASCII.GetBytes(_appSettings.SecretKey);
+            var token = new JwtSecurityToken(
+            new JwtHeader(new SigningCredentials(
+            new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)),
+            new JwtPayload(claims));
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+    } 
 }
+

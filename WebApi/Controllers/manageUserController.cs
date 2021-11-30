@@ -9,11 +9,11 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
-    public class manageUserController : Controller
+    public class ManageUserController : Controller
     {
         private readonly MeasurementDbContext _context;
 
-        public manageUserController(MeasurementDbContext context)
+        public ManageUserController(MeasurementDbContext context)
         {
             _context = context;
         }
