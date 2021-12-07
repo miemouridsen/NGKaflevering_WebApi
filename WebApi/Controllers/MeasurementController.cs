@@ -6,21 +6,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using WebApi.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApi.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MeasurementController : ControllerBase
     {
         private readonly MeasurementDbContext _context;
+        private readonly IHubContext<NotificationHub, INotification> _notifyHubContext;
 
-        public MeasurementController(MeasurementDbContext context)
+        public MeasurementController(MeasurementDbContext context, IHubContext<NotificationHub, INotification> notifyHubContext)
         {
             _context = context;
+            _notifyHubContext = notifyHubContext;
         }
 
         // GET 
@@ -44,6 +47,7 @@ namespace WebApi.Controllers
         }
 
         // POST
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Measurement>> Post(Measurement input)
         {
@@ -55,6 +59,8 @@ namespace WebApi.Controllers
             input.AirPressure = Math.Round(input.AirPressure, 1);
             await _context.Measurements.AddAsync(input);
             await _context.SaveChangesAsync();
+
+            await _notifyHubContext.Clients.All.ReceiveNotification(input);
 
             return Created("get", input);
         }
