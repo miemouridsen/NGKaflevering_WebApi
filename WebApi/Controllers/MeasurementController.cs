@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,6 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MeasurementController : ControllerBase
@@ -57,7 +55,6 @@ namespace WebApi.Controllers
             await _context.SaveChangesAsync();
 
             return Created("get", input);
-            //return CreatedAtAction("Get", new { MeasurementId = input.MeasurementId }, input);
         }
 
 
@@ -106,18 +103,5 @@ namespace WebApi.Controllers
             }
             return measurement;
         }
-
-
-        //// PUT api/<MeasurementController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/<MeasurementController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }
