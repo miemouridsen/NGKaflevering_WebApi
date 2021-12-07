@@ -24,6 +24,7 @@ namespace WebApi.Controllers
             _context = context;
         }
 
+        // POST (register) new user
         [HttpPost("register"), AllowAnonymous]
         public async Task<ActionResult<UserDto>> Register(UserDto regUser)
         {
@@ -44,7 +45,7 @@ namespace WebApi.Controllers
             return CreatedAtAction("Get", new { id = user.UserId }, regUser);
         }
 
-        // GET: api/Account/5
+        // GET by id
         [HttpGet("{id}", Name = "GetAccount")]
         public async Task<ActionResult<UserDto>> Get(int id)
         {
@@ -60,6 +61,7 @@ namespace WebApi.Controllers
             return userDto;
         }
 
+        // POST (login with user)
         [HttpPost("login"), AllowAnonymous]
         public async Task<ActionResult<UserDto>> Login(UserDto login)
         {
