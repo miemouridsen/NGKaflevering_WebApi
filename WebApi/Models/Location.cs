@@ -12,6 +12,15 @@ namespace WebApi.Models
     public class Location
     {
         public Location() { }
+
+        public Location(int locationId, string name, double latitude, double longitude)
+        {
+            LocationId = locationId;
+            Name = name;
+            Latitude = latitude;
+            Longitude = longitude;
+        }
+
         [Key]
         [JsonIgnore]
         public int LocationId { get; set; }

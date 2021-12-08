@@ -12,7 +12,7 @@ namespace WebAPI.Tests
     public class MeasurementControllerTests
     {
         public DbContextOptions<MeasurementDbContext> options { get; private set; }
-
+        Location L1 = new Location(1, "Hornslet", 1, 2);
         private void createfakeDatabase()
         {
             var connection = new SqliteConnection("Data Source =:memory:");
@@ -22,15 +22,12 @@ namespace WebAPI.Tests
             using (var context = new MeasurementDbContext(options))
             {
                 context.Database.EnsureCreated();
-                context.Locations.AddRange(
-                    new Location { LocationId = 1, Name = "Hornslet", Longitude = 1, Latitude = 2 }
-                    );
                 context.Measurements.AddRange(
-                    new Measurement { MeasurementId = 1, DateNTime = DateTime.Now, AirMoisture = 2, AirPressure = 3, Temperature = 0, LocationId = 1 },
-                    new Measurement { MeasurementId = 2, DateNTime = DateTime.Now, AirMoisture = 3, AirPressure = 4, Temperature = 6, LocationId = 1 },
-                    new Measurement { MeasurementId = 3, DateNTime = DateTime.Now, AirMoisture = 1, AirPressure = 1, Temperature = 2, LocationId = 1 },
-                    new Measurement { MeasurementId = 4, DateNTime = DateTime.Now, AirMoisture = 6, AirPressure = 3.3, Temperature = 8, LocationId = 1 }
-                    );
+                    new Measurement { MeasurementId = 1, DateNTime = DateTime.Now, AirMoisture = 2, AirPressure = 3, Temperature = 0, LocationId = 1, Location = L1 },
+                    new Measurement { MeasurementId = 2, DateNTime = DateTime.Now, AirMoisture = 3, AirPressure = 4, Temperature = 6, LocationId = 1, Location = L1 },
+                    new Measurement { MeasurementId = 3, DateNTime = DateTime.Now, AirMoisture = 1, AirPressure = 1, Temperature = 2, LocationId = 1, Location = L1 },
+                    new Measurement { MeasurementId = 4, DateNTime = DateTime.Now, AirMoisture = 6, AirPressure = 3.3, Temperature = 8, LocationId = 1, Location = L1 }
+                    ) ;
 
                 context.SaveChanges();
             }

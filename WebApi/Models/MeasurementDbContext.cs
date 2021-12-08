@@ -9,7 +9,7 @@ namespace WebApi.Models
             : base(options) { }
 
         public DbSet<Measurement> Measurements { get; set; }
-        public DbSet<Location> Locations { get; set; }
+        //public DbSet<Location> Locations { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) { }
         public DbSet<WebApi.Models.User> User { get; set; }
     }
