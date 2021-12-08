@@ -19,4 +19,4 @@ connection.on("ReceiveNotification", function (message) {
     document.getElementById("location").innerHTML = "Location: " + message.location.name +
         " (" + message.location.latitude + ", " + message.location.longitude + ")";
     console.log(message);
-});
+});
