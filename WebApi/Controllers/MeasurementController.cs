@@ -21,7 +21,7 @@ namespace WebApi.Controllers
         private readonly MeasurementDbContext _context;
         private readonly IHubContext<NotificationHub, INotification> _notifyHubContext;
 
-        public MeasurementController(IMeasurementDbContext context, IHubContext<NotificationHub, INotification> notifyHubContext)
+        public MeasurementController(MeasurementDbContext context, IHubContext<NotificationHub, INotification> notifyHubContext)
         {
             _context = (MeasurementDbContext)context;
             _notifyHubContext = notifyHubContext;
