@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApi.Models;
 
 namespace WebApi.Models
 {
@@ -9,8 +8,7 @@ namespace WebApi.Models
             : base(options) { }
 
         public DbSet<Measurement> Measurements { get; set; }
-        //public DbSet<Location> Locations { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) { }
-        public DbSet<WebApi.Models.User> User { get; set; }
+        public DbSet<User> User { get; set; }
     }
 }
