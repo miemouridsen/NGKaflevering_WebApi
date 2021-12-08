@@ -17,12 +17,13 @@ namespace WebApi.Controllers
     [ApiController]
     public class MeasurementController : ControllerBase
     {
+        
         private readonly MeasurementDbContext _context;
         private readonly IHubContext<NotificationHub, INotification> _notifyHubContext;
 
-        public MeasurementController(MeasurementDbContext context, IHubContext<NotificationHub, INotification> notifyHubContext)
+        public MeasurementController(IMeasurementDbContext context, IHubContext<NotificationHub, INotification> notifyHubContext)
         {
-            _context = context;
+            _context = (MeasurementDbContext)context;
             _notifyHubContext = notifyHubContext;
         }
 
