@@ -11,6 +11,7 @@ namespace WebApi.Models
 {
     public class Location
     {
+        public Location() { }
         [Key]
         [JsonIgnore]
         public int LocationId { get; set; }

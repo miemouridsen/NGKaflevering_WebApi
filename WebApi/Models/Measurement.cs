@@ -13,6 +13,8 @@ namespace WebApi.Models
             AirMoisture = airMoisture;
             AirPressure = airPressure;
         }
+        public Measurement() { }
+
         [Key]
         [JsonIgnore]
         public int MeasurementId { get; set; }
