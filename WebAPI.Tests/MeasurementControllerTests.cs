@@ -107,21 +107,3 @@ namespace WebAPI.Tests
 }
 
 
-////Arrange
-//var fakeMesurment = A.CollectionOfDummy<Measurement>(5);
-//fakeMesurment[0].MeasurementId = 1;
-//fakeMesurment[0].AirMoisture = 12;
-//fakeMesurment[0].AirPressure = 10;
-//fakeMesurment[0].Temperature = 22;
-//fakeMesurment[0].DateNTime = DateTime.Now;
-
-//var DataStore = A.Fake<IMeasurementDbContext>();
-//var notifyHubContext = A.Fake<IHubContext<NotificationHub, INotification>>();
-//MeasurementController controller = new MeasurementController(DataStore, notifyHubContext);
-////act 
-//var actionRes = await controller.Get(1);
-//var result = actionRes.Result as OkObjectResult;
-//var returnMeasurements = result.Value as IEnumerable<Measurement>;
-
-//// assert
-//Assert.Equal();
