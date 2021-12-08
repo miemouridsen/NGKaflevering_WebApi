@@ -20,12 +20,10 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
-    {
-
+    { 
         const int BcryptWorkfactor = 10;
         private readonly MeasurementDbContext _context;
         private readonly AppSettings _appSettings;
-
 
         public AccountController(MeasurementDbContext context, IOptions<AppSettings> appSettings)
         {
