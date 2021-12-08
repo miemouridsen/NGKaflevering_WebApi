@@ -23,7 +23,7 @@ namespace WebApi.Controllers
 
         public MeasurementController(MeasurementDbContext context, IHubContext<NotificationHub, INotification> notifyHubContext)
         {
-            _context = (MeasurementDbContext)context;
+            _context = context;
             _notifyHubContext = notifyHubContext;
         }
 
