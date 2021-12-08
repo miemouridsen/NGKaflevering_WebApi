@@ -27,7 +27,6 @@ namespace WebApi.Controllers
             _notifyHubContext = notifyHubContext;
         }
 
-
         // GET 
         [HttpGet]
         public async Task<ActionResult<List<Measurement>>> GetMeasurements()
