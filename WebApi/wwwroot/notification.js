@@ -13,9 +13,9 @@ function Subscribe() {
 
 connection.on("ReceiveNotification", function (message) {
     document.getElementById("datentime").innerHTML = "Date and time: " + message.dateNTime;
-    document.getElementById("temp").innerHTML = "Temperature: " + message.temperature;
+    document.getElementById("temp").innerHTML = "Temperature: " + message.temperature + " &degC";
     document.getElementById("airmos").innerHTML = "Air Moisture: " + message.airMoisture + "%";
-    document.getElementById("airpres").innerHTML = "Air Pressure: " + message.airPressure;
+    document.getElementById("airpres").innerHTML = "Air Pressure: " + message.airPressure + " mbar";
     document.getElementById("location").innerHTML = "Location: " + message.location.name +
         " (" + message.location.latitude + ", " + message.location.longitude + ")";
     console.log(message);
